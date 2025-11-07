@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">My Shop</string>
+    <string name="app_display_name">My Shop</string>
+
+    <!-- Welcome Screen-->
+    <string name="welcome_title">¡Hola!</string>
+    <string name="welcome_body">Te damos la bienvenida a My Shop, la aplicación que te facilita registro de ventas y cierre de caja cada dia..</string>
+    <string name="welcome_security_title">Protección</string>
+    <string name="welcome_security_body">Tu información está segura con nosotros. Seguimos las practicas de seguridad recomendadas por Google.</string>
+    <string name="welcome_private_access_title">Ingreso</string>
+    <string name="welcome_private_access_body">Necesitas una licencia para utilizar la app, si no tiene una comuniquese con soporte.</string>
+    <string name="welcome_login_title">Sesión</string>
+    <string name="welcome_login_body">Accede facilmente con tu cuenta de Google, a un paso, sin contraseñas.</string>
+    <string name="welcome_thanks_title">Agradecimiento</string>
+    <string name="welcome_thanks_body">Gracias por instalar My Shop. ¡Esperamos que te sientas comodo!</string>
+
+    <!-- Buttons-->
+    <string name="btn_next">Siguiente</string>
+    <string name="btn_record_license">Registrar licencia</string>
+    <string name="btn_login">Iniciar sesión</string>
+    <string name="btn_start">Iniciar</string>
+
+    <string name="default_web_client_id">899231795790-ad9sv73ied1i3uo9eg16jf20mh3leu40.apps.googleusercontent.com</string>
+    <string name="generateSaleChange">Realizar el cambio</string>
+</resources>
