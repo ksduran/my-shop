@@ -117,6 +117,7 @@ class SalesViewModel @Inject constructor(
         entities: List<Product>
     ) {
         withContext(Dispatchers.IO) {
+            _uiState.update { it.copy(loading = true) }
             saleUseCases.add(
                 companyName = companyName,
                 color = color,
@@ -266,6 +267,7 @@ class SalesViewModel @Inject constructor(
         size: String,
         color: String
     ) {
+        _uiState.update { it.copy(loading = true) }
         withContext(Dispatchers.IO) {
             val updatedEntity = entity.copy(
                 syncStatus = 0,

@@ -26,6 +26,7 @@ import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.FilterList
 import androidx.compose.material.icons.rounded.SelectAll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -65,6 +66,7 @@ import com.kevinduran.myshop.ui.components.dialogs.LoadingDialog
 import com.kevinduran.myshop.ui.components.dialogs.UsersSelectorModal
 import com.kevinduran.myshop.ui.components.modals.ChangeProductModal
 import com.kevinduran.myshop.ui.components.modals.SalePaymentStatusModal
+import com.kevinduran.myshop.ui.components.shared.buttons.DuranButton
 import com.kevinduran.myshop.ui.components.shared.dataempty.DataEmpty
 import com.kevinduran.myshop.ui.components.shared.listitem.SaleListItem
 import com.kevinduran.myshop.ui.components.shared.loading.ScreenLoading
@@ -288,7 +290,7 @@ private fun SalesList(
                 horizontalArrangement = Arrangement.End
             ) {
                 SearchField(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.weight(1f).align(Alignment.CenterVertically),
                     value = searchSales,
                     viewModel = viewModel
                 )
@@ -445,7 +447,10 @@ private fun FilterButton(
         )
     }
 
-    Button(onClick = { expanded = true }) {
+    DuranButton(
+        modifier = Modifier.padding(horizontal = 8.dp),
+        onClick = { expanded = true }
+    ) {
         Text(
             text = text,
             style = MaterialTheme.typography.bodySmall

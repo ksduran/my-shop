@@ -22,20 +22,13 @@ class LicenseService @Inject constructor(
             .get()
             .await()
         if (!snapshot.exists()) return onFailure("No hay licencias disponibles, verifique su internet e intent de nuevo")
-        val packageName = context.packageName
         var packageMatch = false
         for (child in snapshot.children) {
-            val licenseKey = if (license == "7001234567") "test" else packageName
-            val licenseNode = snapshot.child(licenseKey.replace(".", "_"))
-            if (licenseNode.exists()) {
+            val licenseValue = child.getValue(Long::class.java)
+            if (licenseValue == (license.toLongOrNull() ?: 0)) {
+                preferences.setLicenseId(license.toLong())
                 packageMatch = true
-                val licenseValue = licenseNode.getValue(Long::class.java)
-                if (licenseValue == (license.toLongOrNull() ?: 0)) {
-                    preferences.setLicenseId(license.toLong())
-                    onSuccess()
-                } else {
-                    onFailure("La licencia ingresada no es válida.")
-                }
+                onSuccess()
                 break
             }
         }

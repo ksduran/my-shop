@@ -13,8 +13,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -48,6 +50,7 @@ import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberDrawerState
@@ -76,9 +79,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.composables.icons.lucide.ChartPie
+import com.composables.icons.lucide.FileSpreadsheet
 import com.composables.icons.lucide.House
 import com.composables.icons.lucide.Lucide
+import com.composables.icons.lucide.Percent
+import com.composables.icons.lucide.PiggyBank
 import com.composables.icons.lucide.Shirt
+import com.composables.icons.lucide.UsersRound
 import com.kevinduran.myshop.R
 import com.kevinduran.myshop.config.extensions.toCurrency
 import com.kevinduran.myshop.config.extensions.toDateString
@@ -89,6 +97,8 @@ import com.kevinduran.myshop.ui.components.dialogs.LoadingDialog
 import com.kevinduran.myshop.ui.components.dialogs.TotalCapitalDialog
 import com.kevinduran.myshop.ui.components.dialogs.UsersSelectorModal
 import com.kevinduran.myshop.ui.components.modals.SalesDateRangeModal
+import com.kevinduran.myshop.ui.components.shared.menu.DuranMenu
+import com.kevinduran.myshop.ui.components.shared.menu.DuranMenuItem
 import com.kevinduran.myshop.ui.states.PreferencesState
 import com.kevinduran.myshop.ui.states.SalesState
 import com.kevinduran.myshop.ui.viewmodel.EmployeesViewModel
@@ -116,7 +126,6 @@ fun HomeScreen(navController: NavController) {
     val preferencesUiState by preferencesViewModel.uiState.collectAsState()
 
     //Other
-    val topBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val coroutineScope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     var selectedIndex by rememberSaveable { mutableIntStateOf(0) }
@@ -193,11 +202,9 @@ fun HomeScreen(navController: NavController) {
                 modifier = Modifier
                     .graphicsLayer {
                         renderEffect = if (isBlurActive.value) BlurEffect(50f, 50f) else null
-                    }
-                    .nestedScroll(topBarScrollBehavior.nestedScrollConnection),
+                    },
                 topBar = {
                     TopBar(
-                        scrollBehavior = topBarScrollBehavior,
                         coroutineScope = coroutineScope,
                         drawerState = drawerState,
                         salesState = salesState,
@@ -306,11 +313,9 @@ private fun TopBar(
     isEmployeesFilterVisible: MutableState<Boolean>,
     startDateRange: MutableState<Long>,
     endDateRange: MutableState<Long>,
-    scrollBehavior: TopAppBarScrollBehavior,
     preferencesUiState: PreferencesState
 ) {
-    MediumFlexibleTopAppBar(
-        scrollBehavior = scrollBehavior,
+    TopAppBar(
         title = {
             Text(
                 stringResource(R.string.app_display_name),
@@ -475,12 +480,7 @@ private fun HomeDrawerContent(
                 modifier = Modifier.padding(bottom = 10.dp)
             )
 
-            NavigationDrawerItem(
-                label = { Text("Inicio") },
-                icon = { Icon(Icons.Rounded.Home, "") },
-                onClick = { scope.launch { drawerState.close() } },
-                selected = true
-            )
+            Spacer(Modifier.height(16.dp))
 
             Text(
                 text = "Gestión",
@@ -489,29 +489,28 @@ private fun HomeDrawerContent(
                 modifier = Modifier.padding(vertical = 10.dp)
             )
 
-            NavigationDrawerItem(
-                label = { Text("Empleados") },
-                icon = { Icon(Icons.Rounded.PersonSearch, "") },
-                onClick = {
+            DuranMenu {
+                DuranMenuItem(
+                    title = "Empleados",
+                    imageVector = Lucide.UsersRound
+                ) {
                     scope.launch {
                         drawerState.close()
                         navController.navigate(Routes.Employees.route)
                     }
-                },
-                selected = false
-            )
-
-            NavigationDrawerItem(
-                label = { Text("Proveedores") },
-                icon = { Icon(Icons.Rounded.Groups, "") },
-                onClick = {
+                }
+                DuranMenuItem(
+                    title = "Proveedores",
+                    imageVector = Lucide.UsersRound
+                ) {
                     scope.launch {
                         drawerState.close()
                         navController.navigate(Routes.Suppliers.route)
                     }
-                },
-                selected = false
-            )
+                }
+            }
+
+            Spacer(Modifier.height(16.dp))
 
             Text(
                 text = "Finanzas",
@@ -520,42 +519,35 @@ private fun HomeDrawerContent(
                 modifier = Modifier.padding(vertical = 10.dp)
             )
 
-            NavigationDrawerItem(
-                label = { Text("Cierre de caja") },
-                icon = { Icon(Icons.Rounded.Calculate, "") },
-                onClick = {
+            DuranMenu {
+                DuranMenuItem(
+                    title = "Cierre de caja",
+                    imageVector = Lucide.ChartPie
+                ) {
                     scope.launch {
                         drawerState.close()
                         navController.navigate(Routes.CashClosure.route)
                     }
-                },
-                selected = false
-            )
-
-            NavigationDrawerItem(
-                label = { Text("Ganancias") },
-                icon = { Icon(Icons.Rounded.Savings, "") },
-                onClick = {
+                }
+                DuranMenuItem(
+                    title = "Ganancias",
+                    imageVector = Lucide.PiggyBank
+                ) {
                     scope.launch {
                         drawerState.close()
                         navController.navigate(Routes.Analytics.route)
                     }
-                },
-                selected = false
-            )
-
-            NavigationDrawerItem(
-                label = { Text("Reportes") },
-                icon = { Icon(Icons.Rounded.CalendarMonth, "") },
-                onClick = {
+                }
+                DuranMenuItem(
+                    title = "Reportes",
+                    imageVector = Lucide.FileSpreadsheet
+                ) {
                     scope.launch {
                         drawerState.close()
                         navController.navigate(Routes.Reports.route)
                     }
-                },
-                selected = false
-            )
-
+                }
+            }
         }
     }
 }
